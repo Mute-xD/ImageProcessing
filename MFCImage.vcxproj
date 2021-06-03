@@ -213,6 +213,7 @@
   <ItemGroup>
     <Image Include="res\MFCImage.ico" />
     <Image Include="res\MFCImageDoc.ico" />
+    <Image Include="res\test.bmp" />
     <Image Include="res\Toolbar.bmp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

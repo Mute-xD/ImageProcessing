@@ -57,8 +57,52 @@ void CMFCImageView::OnDraw(CDC* /*pDC*/)
 	ASSERT_VALID(pDoc);
 	if (!pDoc)
 		return;
+	
+	CFile fp;
+	TCHAR* fileName = _T("./res/test.bmp");
+	fp.Open(fileName, CFile::modeRead);
+	short bftype;
+	long bfsize;
+	long bfreserved;
+	long bfoffbits;
 
-	// TODO: 在此处为本机数据添加绘制代码
+
+	fp.Read(&bftype, sizeof(bftype));
+	fp.Read(&bfsize, sizeof(bfsize));
+	fp.Read(&bfreserved, sizeof(bfreserved));
+	fp.Read(&bfoffbits, sizeof(bfoffbits));
+
+	fp.Read(&ih, sizeof(ih));
+	int i;
+	for (i = 0; i < 256; i++)
+	{
+		fp.Read(&pallete[i], sizeof(pallete[i]));
+	}
+
+	int b = ih.biwidth % 4;
+	int j;
+	unsigned char* data = (unsigned char*)malloc(sizeof(unsigned char) * ih.biheight * ih.biwidth);
+	for (i = 0; i < ih.biheight; i++)
+	{
+		for (int j = 0; j < ih.biwidth; j++)
+		{
+			fp.Read(data + (ih.biheight - 1 - i) * ih.biwidth + j, sizeof(char));
+			if (b != 0)
+				fp.Seek(4 - b, CFile::current);
+		}
+	}
+	fp.Close();
+	CClientDC* pdc = new CClientDC(this);
+
+	unsigned int m = ih.biheight;
+	unsigned int n = ih.biwidth;
+	unsigned char a;
+	for (i = 0; i < m; i++)
+		for (j = 0; j < n; j++)
+		{
+			a = *(data + i * n + j);
+			pdc->SetPixel(j + 400, i + 200, RGB(a, a, a));
+		}
 }
 
 

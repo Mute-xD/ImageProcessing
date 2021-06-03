@@ -17,6 +17,34 @@ public:
 
 // 操作
 public:
+	struct bmicolor
+	{
+		WORD bftype;
+		DWORD bfsize;
+		DWORD bfreserved;
+		DWORD bfoffbits;
+	}fh;
+	struct infohead
+	{
+		DWORD bisize;
+		DWORD biwidth;
+		DWORD biheight;
+		WORD biplanes;
+		WORD bibitcount;
+		DWORD bicompression;
+		DWORD bisizeimage;
+		DWORD bixpelspermeter;
+		DWORD biypelspermeter;
+		DWORD biclrused;
+		DWORD biclrimprotant;
+	}ih;
+	struct biColor
+	{
+		BYTE blue;
+		BYTE green;
+		BYTE red;
+		BYTE reserved;
+	}pallete[256];
 
 // 重写
 public:
