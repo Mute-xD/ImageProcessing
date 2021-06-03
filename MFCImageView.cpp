@@ -103,6 +103,67 @@ void CMFCImageView::OnDraw(CDC* /*pDC*/)
 			a = *(data + i * n + j);
 			pdc->SetPixel(j + 400, i + 200, RGB(a, a, a));
 		}
+	float beta;
+	beta = 45 * 3.1415926 / 180;
+	int originx, originy;
+	originx = ih.biheight / 2;//新的图像中心_1
+	originy = ih.biwidth / 2;//新的图像中心_1
+
+	int M, N;
+	M = ih.biheight * fabs(cos(beta)) + ih.biwidth * fabs(sin(beta));
+	N = ih.biheight * fabs(sin(beta)) + ih.biwidth * fabs(cos(beta));
+
+	unsigned char* outimage;
+	outimage = (unsigned char*)malloc(sizeof(unsigned char) * M * N);  //分配新的存储空间M*N
+	float zxx, zxy;
+	zxx = M / 2;
+	zxy = N / 2;//新图像中心_2
+
+	double x_2, y_2;
+	float x_1, y_1;
+	float x_3, y_3;
+	int x_4, y_4;
+	for (i = 0; i < M; i++)
+		for (j = 0; j < N; j++)
+		{
+			x_1 = i - zxx;
+			y_1 = j - zxy;
+
+			x_2 = x_1 * cos(beta) - y_1 * sin(beta);
+			y_2 = x_1 * sin(beta) + y_1 * cos(beta);
+
+			x_3 = x_2 + originx;
+			y_3 = y_2 + originy;
+
+			x_4 = int(x_3 + 0.5);
+			y_4 = int(y_3 + 0.5);
+
+			if ((x_4 >= ih.biheight) || (x_4 < 0) || (y_4 >= ih.biwidth) || (y_4 < 0))
+			{
+				x_4 = 0;
+				y_4 = 0;
+			}
+			*(outimage + i * N + j) = *(data + x_4 * ih.biwidth + y_4);
+
+
+		}
+
+	unsigned int b_new;
+
+	m = ih.biheight;
+	n = ih.biwidth;
+	for (i = 0; i < m; i++)    //PS坐标系差别
+		for (j = 0; j < n; j++)
+		{
+			b = *(data + i * n + j);
+			pdc->SetPixel(j + 500, i + 200, RGB(b, b, b));
+		}
+	for (i = 0; i < M; i++)
+		for (j = 0; j < N; j++)
+		{
+			b_new = *(outimage + i * N + j);
+			pdc->SetPixel(j + 20, i + 20, RGB(b_new, b_new, b_new));
+		}
 }
 
 
