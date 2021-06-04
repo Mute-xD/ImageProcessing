@@ -97,3 +97,39 @@ unsigned char* histogramNorm(unsigned char* data, int height, int width)
 	}
 	return output;
 }
+
+unsigned char* conv2d(unsigned char* data, int height, int width, unsigned char* kernel, int kernelSize)
+{
+	
+	for (int i = 0; i < height; i++)
+	{
+		for (int j = 0; j < width; j++)
+		{
+			;
+		}
+	}
+
+	return nullptr;
+}
+unsigned char* padding(unsigned char* data, int height, int width, int paddingSize, int &outHeight, int &outWidth)
+{
+	outHeight = height + paddingSize * 2;
+	outWidth = width + paddingSize * 2;
+	unsigned char* output;
+	output = (unsigned char*)malloc(sizeof(unsigned char) * outHeight * outWidth);
+	for (int h = 0; h < outHeight; h++)
+	{
+		for (int w = 0; w < outWidth; w++)
+		{
+			*(output + h * outWidth + w) = 0;
+		}
+	}
+	for (int h = 0; h < height; h++)
+	{
+		for (int w = 0; w < width; w++)
+		{
+			*(output + h+ paddingSize * outWidth + w + paddingSize) = *(output + h * width + w);
+		}
+	}
+	return output;
+}

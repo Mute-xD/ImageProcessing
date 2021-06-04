@@ -70,20 +70,28 @@ void CMFCImageView::OnDraw(CDC* /*pDC*/)
 	unsigned char* dataA;
 	dataA = imageLoader(fileNameA, height, width);
 	CClientDC* pdc = new CClientDC(this);
-	//imagePrinter(data, height, width, pdc);
+	imagePrinter(data, height, width, pdc);
 	//unsigned char* rotated = nullptr;
 	//int rotatedHeight, rotatedWidth;
 	//rotated =  rotate(data, height, width, 45, rotatedHeight, rotatedWidth);
 	//imagePrinter(rotated, rotatedHeight, rotatedWidth, pdc, 600, 600);
-	unsigned char* histoNormed;
-	histoNormed = histogramNorm(data, height, width);
-	imagePrinter(data, height, width, pdc);
-	imagePrinter(histoNormed, height, width, pdc, 800, 200);
-	unsigned char* histoNormedA;
-	histoNormedA = histogramNorm(dataA, height, width);
-	imagePrinter(dataA, height, width, pdc, 200, 600);
-	imagePrinter(histoNormedA, height, width, pdc, 800, 600);
+	// 
+	// 
+	//unsigned char* histoNormed;
+	//histoNormed = histogramNorm(data, height, width);
+	//imagePrinter(data, height, width, pdc);
+	//imagePrinter(histoNormed, height, width, pdc, 800, 200);
+	//unsigned char* histoNormedA;
+	//histoNormedA = histogramNorm(dataA, height, width);
+	//imagePrinter(dataA, height, width, pdc, 200, 600);
+	//imagePrinter(histoNormedA, height, width, pdc, 800, 600);
 
+
+	unsigned char *padded;
+	int padHeight = 0;
+	int padWidth = 0;
+	padded = padding(data, height, width, 50, padHeight, padWidth);
+	imagePrinter(padded, padHeight, padWidth, pdc, 800 ,800);
 }
 
 
