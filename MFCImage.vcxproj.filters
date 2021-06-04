@@ -39,6 +39,12 @@
     <ClInclude Include="pch.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="imageBase.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ops.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MFCImage.cpp">
@@ -54,6 +60,12 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="pch.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="imageBase.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ops.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -77,7 +89,10 @@
     <Image Include="res\Toolbar.bmp">
       <Filter>资源文件</Filter>
     </Image>
-    <Image Include="res\test.bmp">
+    <Image Include="res\raw.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\a.bmp">
       <Filter>资源文件</Filter>
     </Image>
   </ItemGroup>
