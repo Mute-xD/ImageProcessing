@@ -37,7 +37,7 @@ unsigned char* imageLoader(TCHAR* fileName, int& height, int& width)
 		{
 			fp.Read(data + (height - 1 - i) * width + j, sizeof(char));
 			if (b != 0)
-				fp.Seek(4 - b, CFile::current);
+				fp.Seek(4. - b, CFile::current);
 		}
 	}
 	fp.Close();

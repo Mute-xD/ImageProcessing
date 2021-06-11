@@ -80,7 +80,7 @@ unsigned char* histogramNorm(unsigned char* data, int height, int width)
 	}
 	for (int i = 0; i < 256; i++)
 	{
-		histogram[i] = round(histogram[i] * 255);
+		histogram[i] = round(histogram[i] * 255.);
 	}
 	for (int i = 0; i < 256; i++)
 	{
@@ -98,18 +98,32 @@ unsigned char* histogramNorm(unsigned char* data, int height, int width)
 	return output;
 }
 
-unsigned char* conv2d(unsigned char* data, int height, int width, unsigned char* kernel, int kernelSize)
+unsigned char* conv2d(unsigned char* data, int height, int width, float* kernel, int kernelSize)
 {
-	
-	for (int i = 0; i < height; i++)
+	unsigned char* padded= nullptr;
+	int paddedHeight; int paddedWidth;
+	padded = padding(data, height, width, 1, paddedHeight, paddedWidth);
+	float temp; float pix; float knl;
+	for (int h = 0; h < height; h++)
 	{
-		for (int j = 0; j < width; j++)
+		for (int w = 0; w < width; w++)
 		{
-			;
+			temp = 0;
+			for (int kh = 0; kh < kernelSize; kh++)
+			{
+				for (int kw = 0; kw < kernelSize; kw++)
+				{
+					pix = *(padded + (h + kh) * paddedWidth + w + kw);
+					knl = 1;
+					temp += (pix * knl);
+				}
+			}
+			temp /= pow(kernelSize, 2);
+			temp = (unsigned char)temp;
+			*(data + h * width + w) = temp;
 		}
 	}
-
-	return nullptr;
+	return data;
 }
 unsigned char* padding(unsigned char* data, int height, int width, int paddingSize, int &outHeight, int &outWidth)
 {
@@ -124,12 +138,18 @@ unsigned char* padding(unsigned char* data, int height, int width, int paddingSi
 			*(output + h * outWidth + w) = 0;
 		}
 	}
-	for (int h = 0; h < height; h++)
+	for (int h = paddingSize; h < outHeight - paddingSize; h++)
 	{
-		for (int w = 0; w < width; w++)
+		for (int w = paddingSize; w < outWidth - paddingSize; w++)
 		{
-			*(output + h+ paddingSize * outWidth + w + paddingSize) = *(output + h * width + w);
+			*(output + h * outWidth + w) = *(data+(h-paddingSize)*width + (w-paddingSize));
 		}
 	}
 	return output;
+}
+
+unsigned char* ft(unsigned char* data, int height, int width)
+{
+
+	return nullptr;
 }

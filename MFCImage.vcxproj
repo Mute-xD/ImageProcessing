@@ -215,6 +215,7 @@
     <None Include="res\MFCImage.rc2" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="res\256.bmp" />
     <Image Include="res\a.bmp" />
     <Image Include="res\MFCImage.ico" />
     <Image Include="res\MFCImageDoc.ico" />

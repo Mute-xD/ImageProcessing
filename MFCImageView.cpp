@@ -63,20 +63,26 @@ void CMFCImageView::OnDraw(CDC* /*pDC*/)
 
 	int height = 0; 
 	int width = 0;
+	int height256 = 0;
+	int width256 = 0;
 	TCHAR* fileName = _T("./res/raw.bmp");
 	TCHAR* fileNameA = _T("./res/a.bmp");
+	TCHAR* fileName256 = _T("./res/256.bmp");
 	unsigned char* data;
 	data = imageLoader(fileName, height, width);
 	unsigned char* dataA;
 	dataA = imageLoader(fileNameA, height, width);
+	unsigned char* data256;
+	data256 = imageLoader(fileName256, height256, width256);
 	CClientDC* pdc = new CClientDC(this);
-	imagePrinter(data, height, width, pdc);
+	imagePrinter(data256, height256, width256, pdc);
+	
 	//unsigned char* rotated = nullptr;
 	//int rotatedHeight, rotatedWidth;
 	//rotated =  rotate(data, height, width, 45, rotatedHeight, rotatedWidth);
 	//imagePrinter(rotated, rotatedHeight, rotatedWidth, pdc, 600, 600);
-	// 
-	// 
+
+
 	//unsigned char* histoNormed;
 	//histoNormed = histogramNorm(data, height, width);
 	//imagePrinter(data, height, width, pdc);
@@ -87,11 +93,16 @@ void CMFCImageView::OnDraw(CDC* /*pDC*/)
 	//imagePrinter(histoNormedA, height, width, pdc, 800, 600);
 
 
-	unsigned char *padded;
-	int padHeight = 0;
-	int padWidth = 0;
-	padded = padding(data, height, width, 50, padHeight, padWidth);
-	imagePrinter(padded, padHeight, padWidth, pdc, 800 ,800);
+	//unsigned char *padded;
+	//int padHeight = 0;
+	//int padWidth = 0;
+	//padded = padding(data, height, width, 50, padHeight, padWidth);
+	//imagePrinter(padded, padHeight, padWidth, pdc, 800 ,800);
+
+	//unsigned char* conved = nullptr;
+	//float kernel[49] = { 1. };
+	//conved = conv2d(data, height, width, kernel, 7);
+	//imagePrinter(conved, height, width, pdc, 800, 800);
 }
 
 
