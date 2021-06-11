@@ -103,6 +103,10 @@ void CMFCImageView::OnDraw(CDC* /*pDC*/)
 	//float kernel[49] = { 1. };
 	//conved = conv2d(data, height, width, kernel, 7);
 	//imagePrinter(conved, height, width, pdc, 800, 800);
+
+	unsigned char* fted = nullptr;
+	fted = ft(data256, height256, width256);
+	imagePrinter(fted, height256, width256, pdc, 800, 800);
 }
 
 

@@ -12,3 +12,5 @@ unsigned char* conv2d(unsigned char* data, int height, int width, float* kernel,
 unsigned char* padding(unsigned char* data, int height, int width, int paddingSize, int& outHeight, int& outWidth);
 
 unsigned char* ft(unsigned char* data, int height, int width);
+
+void FFT(double* x, double* y, int n, int Sign);

@@ -123,6 +123,7 @@ unsigned char* conv2d(unsigned char* data, int height, int width, float* kernel,
 			*(data + h * width + w) = temp;
 		}
 	}
+	delete padded;
 	return data;
 }
 unsigned char* padding(unsigned char* data, int height, int width, int paddingSize, int &outHeight, int &outWidth)
@@ -150,6 +151,119 @@ unsigned char* padding(unsigned char* data, int height, int width, int paddingSi
 
 unsigned char* ft(unsigned char* data, int height, int width)
 {
-
-	return nullptr;
+	unsigned char* rData;
+	unsigned char* iData;
+	iData = (unsigned char*)malloc(sizeof(unsigned char) * height * width);
+	rData = data;
+	for (int h = 0; h < height; h++)
+	{
+		for (int w = 0; w < width; w++)
+		{
+			*(iData + h * width + w) = 0;
+		}
+	}
+	double* tempR;
+	double*	tempI;
+	tempR = (double*)malloc(sizeof(double) * width);
+	tempI = (double*)malloc(sizeof(double) * width);
+	for (int h = 0; h < height; h++)
+	{
+		for (int w = 0; w < width; w++)
+		{
+			*(tempR + w) = *(rData + h * width + w);
+			*(tempI + w) = *(iData + h * width + w);
+		}
+		FFT(tempR, tempI, width, 1);
+		for (int w = 0; w < width; w++)
+		{
+			*(rData + h * width + w) = *(tempR + w);
+			*(iData + h * width + w) = *(tempI + w);
+		}
+	}
+	
+	for (int w = 0; w < width; w++)
+	{
+		for (int h = 0; h< height; h++)
+		{
+			*(tempR + h) = *(rData + h * width + w);
+			*(tempI + h) = *(iData + h * width + w);
+		}
+		FFT(tempR, tempI, width, 1);
+		for (int h = 0; h < height; h++)
+		{
+			*(rData + h * width + w) = *(tempR + h);
+			*(iData + h * width + w) = *(tempI + h);
+		}
+	}
+	return rData;
 }
+
+void FFT(double* x, double* y, int n, int Sign)
+{
+
+	int i, j, k, l, m, n1, n2;
+	double	c, c1, e, s, s1, t, tr, ti;
+	//Get m  n=2^m  
+	for (j = 1, i = 1; i < 16; i++)
+	{
+		m = i;
+		j = 2 * j;
+		if (j == n)break;
+	}
+	n1 = n - 1;
+	for (j = 0, i = 0; i < n1; i++)
+	{
+		if (i < j)
+		{
+			tr = x[j];
+			ti = y[j];
+			x[j] = x[i];
+			y[j] = y[i];
+			x[i] = tr;
+			y[i] = ti;
+		}
+		k = n / 2;
+		while (k < (j + 1))
+		{
+			j = j - k;
+			k = k / 2;
+		}
+		j += k;
+	}
+	n1 = 1;
+	for (l = 1; l <= m; l++)
+	{
+		n1 *= 2;
+		n2 = n1 / 2;
+		e = 3.1415926 / n2;
+		c = 1.0;
+		s = 0.0;
+		c1 = cos(e);
+		s1 = -Sign * sin(e);
+		for (j = 0; j < n2; j++)
+		{
+			for (i = j; i < n; i += n1)
+			{
+				k = i + n2;
+				tr = c * x[k] - s * y[k];
+				ti = c * y[k] + s * x[k];
+				x[k] = x[i] - tr;
+				y[k] = y[i] - ti;
+				x[i] += tr;
+				y[i] += ti;
+			}
+			t = c;
+			c = c * c1 - s * s1;
+			s = t * s1 + s * c1;
+		}
+	}
+	if (Sign == -1)
+	{
+		for (i = 0; i < n; i++)
+		{
+			x[i] /= n;
+			y[i] /= n;
+		}
+	}
+}
+
